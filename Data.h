@@ -29,23 +29,25 @@ struct Data
     static const int ATT_SIZE = 4;  // <- - - Attributes size change here!
     static const int ATT_MAX = 5;   // <- - - Attributes max value change here!
     static const int ATT_MIN = 1;   // <- - - Attributes min value change here!
-    static const int NUMBER_LABELS = 3; // <- Numbers of label value change here!
+
+    // Label setting
+    static const string LABEL;
 
     // There are three labels: 'L', 'R', 'B'
     char label;
 
     // Attribute vector contains values which are the attributes of the data.
-    vector<int> att;
+    vector<int> attribute;
 
     // Default constructor.
     Data()
     {
         //label = '';
-        att.clear();
+        attribute.clear();
     }
 
     // Constructor with full params.
-    Data(char _label, vector<int> _att) : label(_label), att(_att) {}
+    Data(char _label, vector<int> _att) : label(_label), attribute(_att) {}
 
     // Constructor with one line string.
     Data(string line)
@@ -53,19 +55,19 @@ struct Data
         stringstream ss(line);
         ss >> label;
         int num;
-        att.clear();
+        attribute.clear();
         char temp;
         while (ss >> temp)
         {
             ss >> num;
-            att.push_back(num);
+            attribute.push_back(num);
         }
     }
 
     // Destructor.
     ~Data()
     {
-        att.clear();
+        attribute.clear();
     }
 
     // toString function returns a string that contains
@@ -74,9 +76,9 @@ struct Data
     {
         stringstream ss;
         ss << label;
-        for (int num : att)
+        for (int num : attribute)
         {
-            ss << ' ' << num;
+            ss << ',' << num;
         }
         string str;
         getline(ss, str);
@@ -84,10 +86,18 @@ struct Data
     }
 };
 
+// There are three labels: 'L', 'R', 'B'
+const string Data::LABEL = "LRB";
+
+// DataSet type
+typedef vector<Data *> DataSet;
+// Group DataSet type
+typedef pair<DataSet *, DataSet *> GroupDataSet;
+
 // loadDataSet function return vector of Data that read from file.
-vector<Data *> *loadDataSet(string fileName)
+DataSet *loadDataSet(string fileName)
 {
-    vector<Data *> *dataSet = new vector<Data *>();
+    DataSet *dataSet = new DataSet();
     ifstream file(fileName);
     string line;
     while (getline(file, line))
