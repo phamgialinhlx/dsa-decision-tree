@@ -54,8 +54,10 @@ struct Data
         ss >> label;
         int num;
         att.clear();
-        while (ss >> num)
+        char temp;
+        while (ss >> temp)
         {
+            ss >> num;
             att.push_back(num);
         }
     }
@@ -91,7 +93,6 @@ vector<Data *> *loadDataSet(string fileName)
     while (getline(file, line))
     {
         dataSet->push_back(new Data(line));
-        cout << line << endl;
     }
     return dataSet;
 }
