@@ -54,8 +54,10 @@ struct Data
         ss >> label;
         int num;
         att.clear();
-        while (ss >> num)
+        char temp;
+        while (ss >> temp)
         {
+            ss >> num;
             att.push_back(num);
         }
     }
@@ -74,7 +76,7 @@ struct Data
         ss << label;
         for (int num : att)
         {
-            ss << ' ' << num;
+            ss << ',' << num;
         }
         string str;
         getline(ss, str);
