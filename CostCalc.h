@@ -11,6 +11,7 @@
 
 // Headers included
 #include "Data.h"
+#include <math.h>
 
 /**
  * \brief CostCalc is a namespace that contains functions help us caculate 
