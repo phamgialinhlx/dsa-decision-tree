@@ -12,12 +12,13 @@
 #include "Node.h"
 #include "Data.h"
 
-struct Tree {
-    Node* root;
+struct Tree
+{
+    Node *root;
 
-    Tree(string filepath) {
+    Tree(string filepath)
+    {
         vector<Data *> *dataset = loadDataSet("train.txt");
-
     }
 
     void buildTree(vector<Data *> *dataset, int minSize, int maxDepth)

@@ -8,12 +8,13 @@
 #pragma once
 #ifndef NODE_H
 #define NODE_H
-#include "Data.h"
-#include <math.h>
-using namespace std;
 
-//Split a dataset based on an attribute and attribute value
-vector<Data *> * splitByAttribute(vector<Data *> *data, int atr, int value);
+#include "Data.h"
+#include "CostCalc.h"
+#include "BitMask.h"
+#include <math.h>
+
+using namespace std;
 
 struct Node
 {
@@ -24,101 +25,141 @@ struct Node
     Node *right;
 };
 
-// Compute the Gini Score for a split dataset
-double getGiniScore(DataSet *data, double instances)
+namespace SplitData
 {
-    double score = 0.0;
-    vector<int> cnt;
-    cnt.resize(Data::LABEL.size(), 0);
-
-    for (int index = 0; index < data->size(); index++)
-        for (int label = 0; label < Data::LABEL.size(); label++)
-            if (data->at(index)->label == Data::LABEL[label])
-            {
-                ++cnt[label];
-                break;
-            }
-
-    int size = 0;
-    for (int label = 0; label < Data::LABEL.size(); label++)
-        size += cnt[label];
-
-    if (size == 0)
-        return 0.0;
-
-    for (int label = 0; label < Data::LABEL.size(); label++)
+    enum SPLIT_VAL
     {
-        double proportion = (double)cnt[label] / size;
-        score += proportion * proportion;
-    }
-    return (1.0 - score) / ((double)size / instances);
-}
+        ATTRIBUTE = 0,
+        COMPARISION,
+        COMBINATION,
+        SPLIT_TOTAL
+    };
 
-// Compute the Gini index for a group of split dataset
-double getGiniIndex(GroupDataSet *group, double instances)
-{
-    return getGiniScore(group->first, instances) + getGiniScore(group->second, instances);
-}
-
-double getEntropyScore(DataSet *data) {
-    int numberOfData = data->size();
-    vector<int> count(Data::LABEL.size(), 0);
-    double result = 0;
-    for (int i = 0; i < numberOfData; i++) {
-        char label = data->at(i)->label;
-        for (int j = 0; j < Data::LABEL.size(); j++)
+    namespace Attribute
+    {
+        //Split a dataset based on an attribute and attribute value (equal to atr)
+        GroupDataSet *split(DataSet *data, int atr, int value)
         {
-            if (label == Data::LABEL.at(j)) {
-                count[j]++;
-                break;
+            DataSet *left = new DataSet();
+            DataSet *right = new DataSet();
+            for (int i = 0; i < data->size(); i++)
+            {
+                if (data->at(i)->attribute.at(atr) == value)
+                    left->push_back(data->at(i));
+                else
+                    right->push_back(data->at(i));
             }
+            GroupDataSet *group = new GroupDataSet(left, right);
+            return group;
+        }
+
+        //Split a dataset based on an attribute to a group of two new datasets
+        //and select the best split point!
+        GroupDataSet *getSplit(DataSet *data, int atr)
+        {
+            GroupDataSet *chosenGroup;
+            double chosenGini = 2.0;
+            int chosenValue = -1;
+            for (int value = Data::ATT_MIN; value < Data::ATT_MAX; value++)
+            {
+                GroupDataSet *group = split(data, atr, value);
+                double gini = CostCalc::Gini::getGiniIndex(group, data->size());
+                if (chosenGini > gini)
+                {
+                    chosenGroup = group;
+                    chosenGini = gini;
+                    chosenValue = value;
+                }
+            }
+            /** TODO: change return type so it can contain chosenValue and gini index */
+            return chosenGroup;
         }
     }
-    double entropy = 0.0;
-    for (int i = 0; i < Data::LABEL.size(); i++) {
-        double temp = count[i] * 1.0 / numberOfData;
-        if (temp != 0) entropy -= temp*log(temp);
-    }
-    return entropy;
-}
 
-// Compute the Entropy index for a plit dataset
-double getEntropyIndex(GroupDataSet *group, double instances) {
-    return group->first->size() * getEntropyScore(group->first) / instances
-         + group->second->size() * getEntropyScore(group->second) / instances;
-}
-
-
-//Split a dataset based on an attribute and attribute value (equal to atr)
-GroupDataSet *splitByAttributeEqual(DataSet *data, int atr, int value)
-{
-    DataSet *left = new DataSet();
-    DataSet *right = new DataSet();
-    for (int i = 0; i < data->size(); i++)
+    namespace Comparision
     {
-        if (data->at(i)->attribute.at(atr) == value)
-            left->push_back(data->at(i));
-        else
-            right->push_back(data->at(i));
-    }
-    GroupDataSet *group = new GroupDataSet(left, right);
-    return group;
-}
+        //Split a dataset based on an attribute and attribute value (less to atr)
+        GroupDataSet *split(DataSet *data, int atr, int value)
+        {
+            DataSet *left = new DataSet();
+            DataSet *right = new DataSet();
+            for (int i = 0; i < data->size(); i++)
+            {
+                if (data->at(i)->attribute.at(atr) < value)
+                    left->push_back(data->at(i));
+                else
+                    right->push_back(data->at(i));
+            }
+            GroupDataSet *group = new GroupDataSet(left, right);
+            return group;
+        }
 
-//Split a dataset based on an attribute and attribute value (less to atr)
-GroupDataSet *splitByAttributeCompare(DataSet *data, int atr, int value)
-{
-    DataSet *left = new DataSet();
-    DataSet *right = new DataSet();
-    for (int i = 0; i < data->size(); i++)
-    {
-        if (data->at(i)->attribute.at(atr) < value)
-            left->push_back(data->at(i));
-        else
-            right->push_back(data->at(i));
+        //Split a dataset based on comparing attribute to a group of two new datasets
+        //and select the best split point!
+        GroupDataSet *getSplit(DataSet *data, int atr)
+        {
+            GroupDataSet *chosenGroup;
+            double chosenGini = 2.0;
+            int chosenValue = -1;
+            for (int value = Data::ATT_MIN; value < Data::ATT_MAX; value++)
+            {
+                GroupDataSet *group = split(data, atr, value);
+                double gini = CostCalc::Gini::getGiniIndex(group, data->size());
+                if (chosenGini > gini)
+                {
+                    chosenGroup = group;
+                    chosenGini = gini;
+                    chosenValue = value;
+                }
+            }
+            /** TODO: change return type so it can contain chosenValue and gini index */
+            return chosenGroup;
+        }
     }
-    GroupDataSet *group = new GroupDataSet(left, right);
-    return group;
+
+    namespace Combination
+    {
+        //Split a dataset based on a combination of attribute value
+        // mask is the combinatino bit mask of the value
+        GroupDataSet *split(DataSet *data, int atr, int mask)
+        {
+            DataSet *left = new DataSet();
+            DataSet *right = new DataSet();
+            for (int i = 0; i < data->size(); i++)
+            {
+                int curAtt = data->at(i)->attribute.at(atr) - 1;
+                if (getBit(mask, curAtt))
+                    left->push_back(data->at(i));
+                else
+                    right->push_back(data->at(i));
+            }
+            GroupDataSet *group = new GroupDataSet(left, right);
+            return group;
+        }
+
+        //Split a dataset based on a combination of attribute value
+        // to a group of two new datasets and select the best split point!
+        GroupDataSet *getSplit(DataSet *data, int atr)
+        {
+            int maskSize = (2 << Data::ATT_SIZE) - 1;
+            GroupDataSet *group;
+            double gini = 2.0;
+            int comMask = -1;
+            for (int mask = 0; mask < maskSize; mask++)
+            {
+                GroupDataSet *curGroup = split(data, atr, mask);
+                double curGini = CostCalc::Gini::getGiniIndex(curGroup, data->size());
+                if (gini > curGini)
+                {
+                    group = curGroup;
+                    gini = curGini;
+                    comMask = mask;
+                }
+            }
+            /** TODO: change return type so it can contain comMask and gini index */
+            return group;
+        }
+    }
 }
 
 // Select the best split point for a data

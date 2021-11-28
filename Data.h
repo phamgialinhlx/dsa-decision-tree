@@ -26,9 +26,9 @@ using namespace std;
 struct Data
 {
     // Attribute setting
-    static const int ATT_SIZE = 4;  // <- - - Attributes size change here!
-    static const int ATT_MAX = 5;   // <- - - Attributes max value change here!
-    static const int ATT_MIN = 1;   // <- - - Attributes min value change here!
+    static const int ATT_SIZE = 4; // <- - - Attributes size change here!
+    static const int ATT_MAX = 5;  // <- - - Attributes max value change here!
+    static const int ATT_MIN = 1;  // <- - - Attributes min value change here!
 
     // Label setting
     static const string LABEL;

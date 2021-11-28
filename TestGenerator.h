@@ -84,38 +84,38 @@ namespace DataGenerator
 
 class TestGenerator
 {
-    private:
-        // Output file setting
-        string outputFile = "testNew.txt"; // default file name!
+private:
+    // Output file setting
+    string outputFile = "testNew.txt"; // default file name!
 
-        // Just print the test to the output file (or console).
-        void print(vector<Data> test)
+    // Just print the test to the output file (or console).
+    void print(vector<Data> test)
+    {
+        ofstream file(outputFile);
+        for (Data data : test)
         {
-            ofstream file(outputFile);
-            for (Data data : test)
-            {
-                //cout << data.toString() << '\n';
-                file << data.toString() << '\n';
-            }
+            //cout << data.toString() << '\n';
+            file << data.toString() << '\n';
         }
+    }
 
-    public:
-        TestGenerator() {}
-        ~TestGenerator() {}
-        TestGenerator(string _outputFile) : outputFile(_outputFile) {}
+public:
+    TestGenerator() {}
+    ~TestGenerator() {}
+    TestGenerator(string _outputFile) : outputFile(_outputFile) {}
 
-        void setFileName(string _outputFile)
-        {
-            outputFile = _outputFile;
-        }
+    void setFileName(string _outputFile)
+    {
+        outputFile = _outputFile;
+    }
 
-        void generate(int numberOfData = 100)
-        {
-            cout << "Generating the test . . .";
-            // Generate the test
-            print(DataGenerator::testGen(numberOfData));
-            cout << "Done!";
-        }
+    void generate(int numberOfData = 100)
+    {
+        cout << "Generating the test . . .";
+        // Generate the test
+        print(DataGenerator::testGen(numberOfData));
+        cout << "Done!";
+    }
 };
 
 #endif
