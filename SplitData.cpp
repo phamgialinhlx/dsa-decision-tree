@@ -8,7 +8,7 @@ SplitData::GroupSplitData::GroupSplitData(double gini, int atr, int com, SPLIT_V
 
 SplitData::GroupSplitData::~GroupSplitData()
 {
-    delete group;
+
 }
 
 // Compare function
