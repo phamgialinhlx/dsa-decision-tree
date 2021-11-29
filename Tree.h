@@ -21,6 +21,13 @@ struct Tree
         vector<Data *> *dataset = loadDataSet("train.txt");
     }
 
+    /**
+     * @brief Building a tree function.
+     * 
+     * @param dataset The main dataset.
+     * @param minSize Minimum Node Records.
+     * @param maxDepth Maximum Tree Depth.
+     */
     void buildTree(vector<Data *> *dataset, int minSize, int maxDepth)
     {
         return;
