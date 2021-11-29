@@ -40,54 +40,21 @@ struct Data
     vector<int> attribute;
 
     // Default constructor.
-    Data()
-    {
-        //label = '';
-        attribute.clear();
-    }
+    Data();
 
     // Constructor with full params.
-    Data(char _label, vector<int> _att) : label(_label), attribute(_att) {}
+    Data(char _label, vector<int> _att);
 
     // Constructor with one line string.
-    Data(string line)
-    {
-        stringstream ss(line);
-        ss >> label;
-        int num;
-        attribute.clear();
-        char temp;
-        while (ss >> temp)
-        {
-            ss >> num;
-            attribute.push_back(num);
-        }
-    }
+    Data(string line);
 
     // Destructor.
-    ~Data()
-    {
-        attribute.clear();
-    }
+    ~Data();
 
     // toString function returns a string that contains
     // label and all the values of attribute vector.
-    string toString()
-    {
-        stringstream ss;
-        ss << label;
-        for (int num : attribute)
-        {
-            ss << ',' << num;
-        }
-        string str;
-        getline(ss, str);
-        return str;
-    }
+    string toString();
 };
-
-// There are three labels: 'L', 'R', 'B'
-const string Data::LABEL = "LRB";
 
 // DataSet type
 typedef vector<Data *> DataSet;
@@ -95,16 +62,6 @@ typedef vector<Data *> DataSet;
 typedef pair<DataSet *, DataSet *> GroupDataSet;
 
 // loadDataSet function return vector of Data that read from file.
-DataSet *loadDataSet(string fileName)
-{
-    DataSet *dataSet = new DataSet();
-    ifstream file(fileName);
-    string line;
-    while (getline(file, line))
-    {
-        dataSet->push_back(new Data(line));
-    }
-    return dataSet;
-}
+DataSet *loadDataSet(string fileName);
 
 #endif

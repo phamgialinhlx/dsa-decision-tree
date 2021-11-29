@@ -9,9 +9,6 @@
 #ifndef BIT_MASK_H
 #define BIT_MASK_H
 
-bool getBit(int mask, int index)
-{
-    return ((mask >> index) & 1);
-}
+bool getBit(int mask, int index);
 
 #endif

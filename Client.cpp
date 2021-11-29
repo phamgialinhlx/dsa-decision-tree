@@ -13,7 +13,14 @@ int main()
     TestGenerator testGen;
     testGen.generate();
 
-    Tree tree("train.txt");
+    vector<Data *> *dataset = loadDataSet("train.txt");
+    cout << "Load done!\n";
+
+    Tree *tree = new Tree();
+    tree->buildTree(dataset, 2, 5);
+    cout << "Build done!\n";
+
+    tree->printTree();
     cout << "END" << endl;
 
     return 0;

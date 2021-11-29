@@ -17,21 +17,30 @@
 
 using namespace std;
 
-struct Node
+class Node
 {
-    Node *left;
-    Node *right;
+    public: 
+        Node *left;
+        Node *right;
 
-    virtual bool isTerminal() = 0;
-    virtual bool compare(Data* data) = 0;
-    virtual char getLabel() = 0;
+        virtual bool isTerminal() = 0;
+        virtual bool compare(Data *data) = 0;
+        virtual char getLabel() = 0;
+        virtual string toString() = 0;
 
-    Node() { left = right = NULL; }
-    ~Node() 
-    {
-        delete left;
-        delete right;
-    }
+        Node() { left = right = NULL; }
+        ~Node()
+        {
+            delete left;
+            delete right;
+        }
 };
+
+SplitData::GroupSplitData getSplit(vector<Data *> *dataset, SplitData::SPLIT_VAL method = SplitData::COMPARISON);
+
+char toTerminal(DataSet *data);
+
+// Create child splits for a node or make terminal
+void split(Node* &node, DataSet *dataset, int minSize, int maxDepth, int depth);
 
 #endif

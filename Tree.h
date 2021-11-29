@@ -16,10 +16,9 @@ struct Tree
 {
     Node *root;
 
-    Tree(string filepath)
-    {
-        vector<Data *> *dataset = loadDataSet("train.txt");
-    }
+    Tree();
+
+    ~Tree();
 
     /**
      * @brief Building a tree function.
@@ -28,10 +27,11 @@ struct Tree
      * @param minSize Minimum Node Records.
      * @param maxDepth Maximum Tree Depth.
      */
-    void buildTree(vector<Data *> *dataset, int minSize, int maxDepth)
-    {
-        return;
-    }
+    void buildTree(vector<Data *> *dataset, int minSize, int maxDepth);
+
+    void printTree();
 };
+
+void printNode(Node* node, int depth);
 
 #endif

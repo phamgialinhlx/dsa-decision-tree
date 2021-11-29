@@ -11,56 +11,24 @@
 
 #include "Data.h"
 #include "Node.h"
+#include "Node.h"
 
-using namespace std;
-
-struct TerminalNode : virtual Node 
+class TerminalNode : virtual public Node
 {
-    char label;
-    TerminalNode() { left = right = NULL; }
-    ~TerminalNode() 
-    {
-        delete left;
-        delete right;
-    }
+    private:
+        char label;
 
-    TerminalNode(DataSet* data)
-    {
-        left = right = NULL;
-        vector<int> cnt(Data::LABEL.size(), 0);
+    public:
+        TerminalNode(char lab);
+        ~TerminalNode();
 
-        for (int index = 0; index < data->size(); index++)
-            for (int label = 0; label < Data::LABEL.size(); label++)
-                if (data->at(index)->label == Data::LABEL[label])
-                {
-                    ++cnt[label];
-                    break;
-                }
-        
-        int cur = cnt[0];
-        label = Data::LABEL[0];
-        for (int index = 0; index < Data::LABEL.size(); index++)
-            if (cnt[index] > cur)
-            {
-                cur = cnt[index];
-                label = Data::LABEL[index];
-            }
-    }
+        bool isTerminal();
 
-    bool isTerminal()
-    {
-        return true;
-    }
+        bool compare(Data *data);
 
-    bool compare(Data* data)
-    {
-        return true;
-    }
+        char getLabel();
 
-    char getLabel()
-    {
-        return label;
-    }
+        string toString();
 };
 
 #endif

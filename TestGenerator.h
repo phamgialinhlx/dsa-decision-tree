@@ -34,52 +34,17 @@ namespace DataGenerator
     static mt19937 rng(chrono::steady_clock::now().time_since_epoch().count());
 
     // attGen function returns an integer number which is the value of one attribute.
-    int attGen()
-    {
-        return rng() % Data::ATT_MAX + Data::ATT_MIN;
-    }
+    int attGen();
 
     // labelGen function return the label of an attribute vector.
-    char labelGen(vector<int> att)
-    {
-        int left = 0, right = 0;
-        for (int index = 0; index < att.size(); index++)
-        {
-            if (index < att.size() / 2)
-                left += att[index];
-            else
-                right += att[index];
-        }
-        if (left < right)
-            return 'R';
-        if (left > right)
-            return 'L';
-        return 'B';
-    }
+    char labelGen(vector<int> att);
 
     // dataGen function return a random Data.
-    Data dataGen()
-    {
-        vector<int> att;
-        att.resize(Data::ATT_SIZE, 0);
-        for (int index = 0; index < att.size(); index++)
-            att[index] = attGen();
-        char label = labelGen(att);
-        return Data(label, att);
-    }
+    Data dataGen();
 
     // testGen function returns a vector of Data.
     //  numberOfData is the number of random data.
-    vector<Data> testGen(int numberOfData = 100)
-    {
-        vector<Data> test;
-        test.resize(numberOfData);
-        for (int index = 0; index < numberOfData; index++)
-        {
-            test[index] = dataGen();
-        }
-        return test;
-    }
+    vector<Data> testGen(int numberOfData = 100);
 }
 
 class TestGenerator
@@ -89,33 +54,15 @@ private:
     string outputFile = "testNew.txt"; // default file name!
 
     // Just print the test to the output file (or console).
-    void print(vector<Data> test)
-    {
-        ofstream file(outputFile);
-        for (Data data : test)
-        {
-            //cout << data.toString() << '\n';
-            file << data.toString() << '\n';
-        }
-    }
+    void print(vector<Data> test);
 
 public:
     TestGenerator() {}
     ~TestGenerator() {}
-    TestGenerator(string _outputFile) : outputFile(_outputFile) {}
+    TestGenerator(string _outputFile);
 
-    void setFileName(string _outputFile)
-    {
-        outputFile = _outputFile;
-    }
-
-    void generate(int numberOfData = 100)
-    {
-        cout << "Generating the test . . .";
-        // Generate the test
-        print(DataGenerator::testGen(numberOfData));
-        cout << "Done!";
-    }
+    void setFileName(string _outputFile);
+    void generate(int numberOfData = 100);
 };
 
 #endif

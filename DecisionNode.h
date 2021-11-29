@@ -10,54 +10,31 @@
 #define DECISION_NODE_H
 
 #include "Data.h"
-#include "Node.h"
 #include "SplitData.h"
+#include <sstream>
+#include "Node.h"
 
-using namespace std;
-
-struct DecisionNode : virtual Node 
+class DecisionNode : virtual public Node
 {
-    double giniScore;
-    int attribute;
-    int compareValue;
-    SplitData::SPLIT_VAL method;
+    private:
+        double giniScore;
+        int attribute;
+        int compareValue;
+        SplitData::SPLIT_VAL method;
 
-    DecisionNode() { left = right = NULL; }
-    ~DecisionNode() 
-    {
-        delete left;
-        delete right;
-    }
+    public:
+        DecisionNode();
+        ~DecisionNode();
 
-    DecisionNode(int atr, int value, SplitData::SPLIT_VAL met) : attribute(atr), compareValue(value), method(met) { left = right = NULL; }
+        DecisionNode(int atr, int value, SplitData::SPLIT_VAL met);
 
-    bool isTerminal()
-    {
-        return false;
-    }
+        bool isTerminal();
 
-    bool compare(Data* data)
-    {
-        switch (method)
-        {
-        case SplitData::ATTRIBUTE:
-            return SplitData::Attribute::compare(data, attribute, compareValue);
-        
-        case SplitData::COMPARISON:
-            return SplitData::Comparison::compare(data, attribute, compareValue);
-        
-        case SplitData::COMBINATION:
-            return SplitData::Combination::compare(data, attribute, compareValue);
-        
-        default:
-            return true;
-        }
-    }
+        bool compare(Data *data);
 
-    char getLabel()
-    {
-        return ' ';
-    }
+        char getLabel();
+
+        string toString();
 };
 
 #endif
