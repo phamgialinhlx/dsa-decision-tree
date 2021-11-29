@@ -43,6 +43,13 @@ SplitData::GroupSplitData SplitData::Attribute::getSplit(DataSet *data, int atr)
     for (int value = Data::ATT_MIN; value < Data::ATT_MAX; value++)
     {
         GroupDataSet *group = SplitData::Attribute::split(data, atr, value);
+
+        DataSet *left = group->first;
+        DataSet *right = group->second;
+
+        if (left->empty() || right->empty())
+            continue;
+
         double gini = CostCalc::Gini::getGiniIndex(group, data->size());
         if (chosenGini > gini)
         {
@@ -91,6 +98,13 @@ SplitData::GroupSplitData SplitData::Comparison::getSplit(DataSet *data, int atr
     for (int value = Data::ATT_MIN; value < Data::ATT_MAX; value++)
     {
         GroupDataSet *group = SplitData::Comparison::split(data, atr, value);
+        
+        DataSet *left = group->first;
+        DataSet *right = group->second;
+
+        if (left->empty() || right->empty())
+            continue;
+
         double gini = CostCalc::Gini::getGiniIndex(group, data->size());
         if (chosenGini > gini)
         {
@@ -142,6 +156,13 @@ SplitData::GroupSplitData SplitData::Combination::getSplit(DataSet *data, int at
     for (int mask = 0; mask < maskSize; mask++)
     {
         GroupDataSet *group = SplitData::Combination::split(data, atr, mask);
+        
+        DataSet *left = group->first;
+        DataSet *right = group->second;
+
+        if (left->empty() || right->empty())
+            continue;
+
         double gini = CostCalc::Gini::getGiniIndex(group, data->size());
         if (chosenGini > gini)
         {

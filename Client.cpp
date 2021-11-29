@@ -17,7 +17,7 @@ int main()
     cout << "Load done!\n";
 
     Tree *tree = new Tree();
-    tree->buildTree(dataset, 2, 5);
+    tree->buildTree(dataset, 1, 20);
     cout << "Build done!\n";
 
     tree->printTree();

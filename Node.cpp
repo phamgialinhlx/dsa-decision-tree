@@ -59,6 +59,13 @@ char toTerminal(DataSet *data)
 void split(Node* &node, DataSet *dataset, int minSize, int maxDepth, int depth)
 {
     SplitData::GroupSplitData tempGroup = getSplit(dataset);
+
+    if (tempGroup.group == NULL)
+    {
+        node = new TerminalNode(toTerminal(dataset));
+        return;
+    }
+
     DataSet *left = tempGroup.group->first;
     DataSet *right = tempGroup.group->second;
 
