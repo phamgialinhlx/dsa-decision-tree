@@ -29,6 +29,12 @@ struct Tree
      */
     void buildTree(vector<Data *> *dataset, int minSize, int maxDepth);
 
+    double calcAccuracy(DataSet* dataset);
+
+    bool predict(Data* data);
+
+    bool predict(Node* node, Data* data);
+
     void printTree();
 };
 

@@ -58,7 +58,7 @@ char toTerminal(DataSet *data)
 // Create child splits for a node or make terminal
 void split(Node* &node, DataSet *dataset, int minSize, int maxDepth, int depth)
 {
-    SplitData::GroupSplitData tempGroup = getSplit(dataset);
+    SplitData::GroupSplitData tempGroup = getSplit(dataset, SplitData::ATTRIBUTE);
 
     if (tempGroup.group == NULL)
     {
