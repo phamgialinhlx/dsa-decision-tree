@@ -3,9 +3,12 @@
 Tree::Tree()
 {
     root = NULL;
+    console = NULL;
 }
 
 Tree::Tree(vector<Data *> *dataset, int minSize, int maxDepth) {
+    console = new Console("DecisionTree", false);
+    console->log(cout, "Buiding tree");
     split(root, dataset, minSize, maxDepth, 1);
 }
 
@@ -13,6 +16,7 @@ Tree::~Tree()
 {
     /** TODO: delete all Node */
     delete root;
+    delete console;
 }
 
 /**
@@ -24,6 +28,7 @@ Tree::~Tree()
  */
 void Tree::buildTree(vector<Data *> *dataset, int minSize, int maxDepth)
 {
+    console->log(cout, "Buiding tree");
     split(root, dataset, minSize, maxDepth, 1);
     return;
 }
