@@ -51,6 +51,8 @@ struct Data
     // Destructor.
     ~Data();
 
+    void getAttFromString(string line);
+
     // toString function returns a string that contains
     // label and all the values of attribute vector.
     string toString();
@@ -65,5 +67,7 @@ typedef pair<DataSet *, DataSet *> GroupDataSet;
 
 // loadDataSet function return vector of Data that read from file.
 DataSet *loadDataSet(string fileName);
+
+DataSet *loadDataTest(string filename);
 
 #endif

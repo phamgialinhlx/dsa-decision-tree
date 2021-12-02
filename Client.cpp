@@ -31,6 +31,7 @@ int main()
     vector<Data *> *dataset = loadDataSet("train.txt");
     vector<Data *> *valid = loadDataSet("valid.txt");
     vector<Data *> *test = loadDataSet("testNew.txt");
+    DataSet *private_test = loadDataTest("private_test.txt");
     cout << "\nLoad done!\n";
 
     // DECISION TREE TEST
@@ -123,6 +124,9 @@ int main()
     cout << "Accuracy (Valid test) = " << forest->calcAccuracy(valid) << "%\n";
     cout << "Accuracy (Train test) = " << forest->calcAccuracy(dataset) << "%\n";
     cout << "Accuracy (New test) = " << forest->calcAccuracy(test) << "%\n";
+
+    cout << '\n';
+    forest->predictToFile(private_test, "result.txt");
 
     /*
     int choice;

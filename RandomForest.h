@@ -36,6 +36,10 @@ public:
     // Predict the label of the data given.
     bool predict(Data *data);
 
+    char getPredict(Data *data);
+
+    void predictToFile(DataSet *dataset, string filena);
+
     void importFromFile(string filename);
 
     void exportToFile(string filename);

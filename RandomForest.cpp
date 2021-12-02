@@ -106,9 +106,49 @@ bool RandomForest::predict(Data *data)
     return Data::LABEL[iMax] == data->label;
 }
 
+char RandomForest::getPredict(Data *data)
+{
+    vector<int> cnt(Data::LABEL.size(), 0);
+
+    for (int i = 0; i < forest.size(); i++)
+    {
+        char label = forest.at(i)->predictNode(data);
+        for (int j = 0; j < Data::LABEL.size(); j++)
+        {
+            if (Data::LABEL.at(j) == label)
+            {
+                cnt[j]++;
+                break;
+            }
+        }
+    }
+
+    int iMax = 0;
+
+    for (int i = 0; i < Data::LABEL.size(); i++)
+    {
+        if (cnt[iMax] < cnt[i])
+        {
+            iMax = i;
+        }
+    }
+    return Data::LABEL[iMax];
+}
+
+void RandomForest::predictToFile(DataSet* dataset, string filename)
+{
+    ofstream file(filename);
+
+    for (int i = 0; i < dataset->size(); i++)
+    {
+        file << getPredict(dataset->at(i)) << '\n';
+    }
+
+    file.close();
+}
+
 double RandomForest::calcAccuracy(DataSet *dataset)
 {
-
     int count = 0;
     for (int i = 0; i < dataset->size(); i++)
     {
@@ -153,7 +193,7 @@ void RandomForest::importFromFile(string filename)
 void RandomForest::exportToFile(string filename)
 {
     ofstream file(filename);
-    
+
     for (int i = 0; i < forest.size(); i++)
     {
         file << forest[i]->getExport() << '\n';
