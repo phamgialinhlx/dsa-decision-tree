@@ -5,6 +5,10 @@ Tree::Tree()
     root = NULL;
 }
 
+Tree::Tree(vector<Data *> *dataset, int minSize, int maxDepth) {
+    split(root, dataset, minSize, maxDepth, 1);
+}
+
 Tree::~Tree()
 {
     /** TODO: delete all Node */
@@ -67,7 +71,6 @@ bool Tree::predict(Node *node, Data *data)
         {
             if (node->getLabel() == data->label)
             {
-                cout << node->getLabel();
                 return true;
             }
             else
@@ -75,6 +78,32 @@ bool Tree::predict(Node *node, Data *data)
         }
         else
             predict(node->right, data);
+    }
+}
+
+char Tree::predictNode(Data* data) {
+    return predictNode(root, data);
+}
+
+char Tree::predictNode(Node* node, Data* data) {
+    if (node->compare(data))
+    {
+        if (node->isTerminal())
+        {   
+
+            return node->getLabel();        
+        }
+        else
+            predictNode(node->left, data);
+    }
+    else
+    {
+        if (node->isTerminal())
+        {
+            return node->getLabel();    
+        }
+        else
+            predictNode(node->right, data);
     }
 }
 

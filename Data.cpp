@@ -61,3 +61,8 @@ DataSet *loadDataSet(string fileName)
     }
     return dataSet;
 }
+
+
+Data* Data::clone() {
+    return new Data(this->label, this->attribute);
+}

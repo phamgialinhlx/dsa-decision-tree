@@ -54,6 +54,8 @@ struct Data
     // toString function returns a string that contains
     // label and all the values of attribute vector.
     string toString();
+
+    Data* clone();
 };
 
 // DataSet type

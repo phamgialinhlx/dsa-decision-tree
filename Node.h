@@ -38,6 +38,9 @@ class Node
 
 SplitData::GroupSplitData getSplit(vector<Data *> *dataset, SplitData::SPLIT_VAL method = SplitData::COMPARISON);
 
+SplitData::GroupSplitData getRandomSplit(vector<Data *> *dataset, SplitData::SPLIT_VAL method = SplitData::COMPARISON);
+
+
 char toTerminal(DataSet *data);
 
 // Create child splits for a node or make terminal

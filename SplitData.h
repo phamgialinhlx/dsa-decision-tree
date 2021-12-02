@@ -29,13 +29,13 @@ namespace SplitData
 
     struct GroupSplitData
     {
-        GroupDataSet* group;
+        GroupDataSet *group;
         double giniIndex;
         int attribute;
         int compareValue;
         SPLIT_VAL method;
 
-        GroupSplitData(double gini = 2.0, int atr = -1, int com = -1, SPLIT_VAL met = NONE, GroupDataSet* groupData = NULL);
+        GroupSplitData(double gini = 2.0, int atr = -1, int com = -1, SPLIT_VAL met = NONE, GroupDataSet *groupData = NULL);
         ~GroupSplitData();
     };
 

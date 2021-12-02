@@ -18,6 +18,8 @@ struct Tree
 
     Tree();
 
+    Tree(vector<Data *> *dataset, int minSize, int maxDepth);
+
     ~Tree();
 
     /**
@@ -34,6 +36,10 @@ struct Tree
     bool predict(Data* data);
 
     bool predict(Node* node, Data* data);
+
+    char predictNode(Data* data);
+
+    char predictNode(Node* node, Data* data);
 
     void printTree();
 };
