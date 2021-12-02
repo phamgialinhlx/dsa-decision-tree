@@ -111,8 +111,9 @@ char toTerminal(DataSet *data)
 void split(Node *&node, DataSet *dataset, int minSize, int maxDepth, int depth)
 {
     /** TODO: make a better split function in the future! */
-    SplitData::GroupSplitData tempGroup = getRandomSplit(dataset, SplitData::COMPARISON);
-    // SplitData::GroupSplitData tempGroup = getRandomSplit(dataset, SplitData::randSplit(SplitData::COMPARISON, SplitData::COMBINATION));
+    //SplitData::GroupSplitData tempGroup = getRandomSplit(dataset, SplitData::COMPARISON);
+    //SplitData::GroupSplitData tempGroup = getRandomSplit(dataset, SplitData::randSplit(SplitData::COMPARISON, SplitData::COMBINATION));
+    SplitData::GroupSplitData tempGroup = getRandomSplit(dataset, SplitData::randSplit());
 
     if (tempGroup.group == NULL)
     {

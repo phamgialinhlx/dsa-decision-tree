@@ -68,7 +68,7 @@ void RandomForest::buildForest(vector<Data *> *dataset, vector<Data *> *valid, i
             int randomData = rand() % dataSize;
             int cloneTime = 1;
             if (dataset->at(randomData)->label == 'B')
-                cloneTime = 3;
+                cloneTime = 4;
             for (int clone = 0; clone < cloneTime; clone++)
                 bootstrapDataSet->push_back(dataset->at(randomData)->clone());
         }

@@ -86,20 +86,32 @@ int main()
     if (choice == 1)
     {
         int method;
-        cout << " Enter your method (1 - build best model | 2 - double training): ";
+        cout << " Enter your method (1 - build best model | 2 - double training | 3 - valid included): ";
         cin >> method;
+
+        int numberOfTrees;
+        cout << " Enter your number of trees: ";
+        cin >> numberOfTrees;
 
         // method - 1
         if (method == 1)
         {
-            forest = buildBestModel(dataset, dataset, 100);
+            forest = buildBestModel(dataset, dataset, numberOfTrees);
             forest->exportToFile("savedData.txt");
         }
         else
         {
             // method - 2
-            forest = new RandomForest(dataset, dataset, 100);
-            forest->exportToFile("savedData.txt");
+            if (method == 2)
+            {
+                forest = new RandomForest(dataset, dataset, numberOfTrees);
+                forest->exportToFile("savedData.txt");
+            }
+            else
+            {
+                forest = new RandomForest(dataset, valid, numberOfTrees);
+                forest->exportToFile("savedData.txt");
+            }
         }
     }
     else
