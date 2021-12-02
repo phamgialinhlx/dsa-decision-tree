@@ -17,12 +17,12 @@ class Tree
 {
 private:
     Node *root;
-    Console *console;
+    Console *console;    
 
 public:
-    Tree();
+    Tree(bool consoleActivate = true);
 
-    Tree(vector<Data *> *dataset, int minSize, int maxDepth);
+    Tree(vector<Data *> *dataset, int minSize, int maxDepth, bool consoleActivate = true);
 
     ~Tree();
 
@@ -46,7 +46,15 @@ public:
     char predictNode(Node *node, Data *data);
 
     void printTree();
+
+    void import(string importData);
+
+    string getExport();
+
+    void exportNode(string& exportData, Node* node, int& count, int parentCode, int direction);
 };
+
+Tree *buildBestModel(DataSet *train, DataSet *valid);
 
 void printNode(Node *node, int depth);
 

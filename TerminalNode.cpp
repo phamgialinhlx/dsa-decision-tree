@@ -34,3 +34,17 @@ string TerminalNode::toString()
     ss >> result;
     return result;
 }
+
+void TerminalNode::setCode(int _code)
+{
+    code = _code;
+}
+
+string TerminalNode::getExport()
+{
+    string result;
+    stringstream ss;
+    ss << isTerminal() << ' ' << label;
+    getline(ss, result);
+    return result;
+}

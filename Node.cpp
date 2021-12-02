@@ -27,7 +27,7 @@ SplitData::GroupSplitData getSplit(vector<Data *> *dataset, SplitData::SPLIT_VAL
             break;
         }
 
-        if (curGroup.giniIndex < chosenGroup.giniIndex)
+        if (curGroup.costIndex < chosenGroup.costIndex)
         {
             chosenGroup = curGroup;
         }
@@ -79,7 +79,7 @@ SplitData::GroupSplitData getRandomSplit(vector<Data *> *dataset, SplitData::SPL
             break;
         }
 
-        if (curGroup.giniIndex < chosenGroup.giniIndex)
+        if (curGroup.costIndex < chosenGroup.costIndex)
         {
             chosenGroup = curGroup;
         }
@@ -110,7 +110,9 @@ char toTerminal(DataSet *data)
 // Create child splits for a node or make terminal
 void split(Node *&node, DataSet *dataset, int minSize, int maxDepth, int depth)
 {
+    /** TODO: make a better split function in the future! */
     SplitData::GroupSplitData tempGroup = getRandomSplit(dataset, SplitData::COMPARISON);
+    // SplitData::GroupSplitData tempGroup = getRandomSplit(dataset, SplitData::randSplit(SplitData::COMPARISON, SplitData::COMBINATION));
 
     if (tempGroup.group == NULL)
     {
@@ -121,7 +123,7 @@ void split(Node *&node, DataSet *dataset, int minSize, int maxDepth, int depth)
     DataSet *left = tempGroup.group->first;
     DataSet *right = tempGroup.group->second;
 
-    if ((tempGroup.giniIndex == 0.0) || (depth >= maxDepth) || (left->size() <= minSize && right->size() <= minSize))
+    if ((tempGroup.costIndex == 0.0) || (depth >= maxDepth) || (left->size() <= minSize && right->size() <= minSize))
     {
         char leftLabel = toTerminal(left);
         char rightLabel = toTerminal(right);

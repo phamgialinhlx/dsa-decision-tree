@@ -17,7 +17,6 @@
 class DecisionNode : virtual public Node
 {
     private:
-        double giniScore;
         int attribute;
         int compareValue;
         SplitData::SPLIT_VAL method;
@@ -35,6 +34,10 @@ class DecisionNode : virtual public Node
         char getLabel();
 
         string toString();
+
+        void setCode(int _code);
+
+        string getExport();
 };
 
 #endif

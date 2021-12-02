@@ -1,8 +1,8 @@
 /*
  * This file is part of dsa-decision-tree
- * 
+ *
  * Developed for the DSA UET course.
- * This project was developed by Ba Luong and Gia Linh. 
+ * This project was developed by Ba Luong and Gia Linh.
  */
 
 #pragma once
@@ -14,7 +14,7 @@
 #include <math.h>
 
 /**
- * \brief CostCalc is a namespace that contains functions help us caculate 
+ * \brief CostCalc is a namespace that contains functions help us caculate
  * split node cost!
  */
 namespace CostCalc
