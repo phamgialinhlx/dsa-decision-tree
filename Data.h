@@ -54,6 +54,8 @@ struct Data
     // Destructor.
     ~Data();
 
+    void getAttFromString(string line);
+
     // toString function returns a string that contains
     // label and all the values of attribute vector.
     string toString();
@@ -73,5 +75,6 @@ DataSet *loadDataSet(string fileName);
 
 DataSet *loadDataSetBuff(string fileName, char label, int scale);
 
+DataSet *loadDataTest(string filename);
 
 #endif

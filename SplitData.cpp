@@ -1,6 +1,44 @@
 #include "SplitData.h"
+#include <random>
 
-SplitData::GroupSplitData::GroupSplitData(double gini, int atr, int com, SPLIT_VAL met, GroupDataSet *groupData) : giniIndex(gini), attribute(atr), compareValue(com), method(met)
+SplitData::SPLIT_VAL SplitData::getSplitValue(int index)
+{
+    switch (index)
+    {
+    case 0:
+        return SplitData::ATTRIBUTE;
+
+    case 1:
+        return SplitData::COMPARISON;
+
+    case 2:
+        return SplitData::COMBINATION;
+
+    default:
+        return SplitData::NONE;
+    }
+}
+
+SplitData::SPLIT_VAL SplitData::randSplit(int rMin, int rMax)
+{
+    int num = rand() % (rMax - rMin + 1) + rMin;
+    switch (num)
+    {
+    case 0:
+        return SplitData::ATTRIBUTE;
+
+    case 1:
+        return SplitData::COMPARISON;
+
+    case 2:
+        return SplitData::COMBINATION;
+
+    default:
+        return SplitData::NONE;
+    }
+}
+
+SplitData::GroupSplitData::GroupSplitData(double cost, int atr, int com, SPLIT_VAL met, GroupDataSet *groupData) : costIndex(cost), attribute(atr), compareValue(com), method(met)
 {
     group = groupData;
 }
@@ -15,7 +53,7 @@ bool SplitData::Attribute::compare(Data *data, int atr, int value)
     return data->attribute.at(atr) == value;
 }
 
-//Split a dataset based on an attribute and attribute value (equal to atr)
+// Split a dataset based on an attribute and attribute value (equal to atr)
 GroupDataSet *SplitData::Attribute::split(DataSet *data, int atr, int value)
 {
     DataSet *left = new DataSet();
@@ -33,12 +71,12 @@ GroupDataSet *SplitData::Attribute::split(DataSet *data, int atr, int value)
     return group;
 }
 
-//Split a dataset based on an attribute to a group of two new datasets
-//and select the best split point!
+// Split a dataset based on an attribute to a group of two new datasets
+// and select the best split point!
 SplitData::GroupSplitData SplitData::Attribute::getSplit(DataSet *data, int atr)
 {
     GroupDataSet *chosenGroup = NULL;
-    double chosenGini = 2.0;
+    double chosenCost = 2.0;
     int chosenValue = -1;
     for (int value = Data::ATT_MIN; value < Data::ATT_MAX; value++)
     {
@@ -50,12 +88,13 @@ SplitData::GroupSplitData SplitData::Attribute::getSplit(DataSet *data, int atr)
         if (left->empty() || right->empty())
             continue;
 
-        double gini = CostCalc::Gini::getGiniIndex(group, data->size());
-        if (chosenGini > gini)
+        // double cost = CostCalc::Gini::getGiniIndex(group, data->size());
+        double cost = CostCalc::Entropy::getEntropyIndex(group, data->size());
+        if (chosenCost > cost)
         {
             delete chosenGroup;
             chosenGroup = group;
-            chosenGini = gini;
+            chosenCost = cost;
             chosenValue = value;
         }
         else
@@ -63,7 +102,7 @@ SplitData::GroupSplitData SplitData::Attribute::getSplit(DataSet *data, int atr)
             delete group;
         }
     }
-    return SplitData::GroupSplitData(chosenGini, atr, chosenValue, SplitData::ATTRIBUTE, chosenGroup);
+    return SplitData::GroupSplitData(chosenCost, atr, chosenValue, SplitData::ATTRIBUTE, chosenGroup);
 }
 
 vector<int> SplitData::Attribute::getErrorIndex(DataSet *data, int atr, int value) {
@@ -83,7 +122,7 @@ bool SplitData::Comparison::compare(Data *data, int atr, int value)
     return data->attribute.at(atr) < value;
 }
 
-//Split a dataset based on an attribute and attribute value (less to atr)
+// Split a dataset based on an attribute and attribute value (less to atr)
 GroupDataSet *SplitData::Comparison::split(DataSet *data, int atr, int value)
 {
     DataSet *left = new DataSet();
@@ -103,12 +142,12 @@ GroupDataSet *SplitData::Comparison::split(DataSet *data, int atr, int value)
     return group;
 }
 
-//Split a dataset based on comparing attribute to a group of two new datasets
-//and select the best split point!
+// Split a dataset based on comparing attribute to a group of two new datasets
+// and select the best split point!
 SplitData::GroupSplitData SplitData::Comparison::getSplit(DataSet *data, int atr)
 {
     GroupDataSet *chosenGroup = NULL;
-    double chosenGini = 2.0;
+    double chosenCost = 2.0;
     int chosenValue = -1;
     for (int value = Data::ATT_MIN; value < Data::ATT_MAX; value++)
     {
@@ -119,12 +158,13 @@ SplitData::GroupSplitData SplitData::Comparison::getSplit(DataSet *data, int atr
         if (left->empty() || right->empty())
             continue;
 
-        double gini = CostCalc::Gini::getGiniIndex(group, data->size());
-        if (chosenGini > gini)
+        // double cost = CostCalc::Gini::getGiniIndex(group, data->size());
+        double cost = CostCalc::Entropy::getEntropyIndex(group, data->size());
+        if (chosenCost > cost)
         {
             delete chosenGroup;
             chosenGroup = group;
-            chosenGini = gini;
+            chosenCost = cost;
             chosenValue = value;
         }
         else
@@ -132,7 +172,7 @@ SplitData::GroupSplitData SplitData::Comparison::getSplit(DataSet *data, int atr
             delete group;
         }
     }
-    return SplitData::GroupSplitData(chosenGini, atr, chosenValue, SplitData::COMPARISON, chosenGroup);
+    return SplitData::GroupSplitData(chosenCost, atr, chosenValue, SplitData::COMPARISON, chosenGroup);
 }
 
 vector<int> SplitData::Comparison::getErrorIndex(DataSet *data, int atr, int value) {
@@ -153,8 +193,8 @@ bool SplitData::Combination::compare(Data *data, int atr, int mask)
     return getBit(mask, data->attribute.at(atr) - 1);
 }
 
-//Split a dataset based on a combination of attribute value
-// mask is the combinatino bit mask of the value
+// Split a dataset based on a combination of attribute value
+//  mask is the combinatino bit mask of the value
 GroupDataSet *SplitData::Combination::split(DataSet *data, int atr, int mask)
 {
     DataSet *left = new DataSet();
@@ -171,13 +211,13 @@ GroupDataSet *SplitData::Combination::split(DataSet *data, int atr, int mask)
     return group;
 }
 
-//Split a dataset based on a combination of attribute value
-// to a group of two new datasets and select the best split point!
+// Split a dataset based on a combination of attribute value
+//  to a group of two new datasets and select the best split point!
 SplitData::GroupSplitData SplitData::Combination::getSplit(DataSet *data, int atr)
 {
     int maskSize = (2 << Data::ATT_SIZE) - 1;
     GroupDataSet *chosenGroup = NULL;
-    double chosenGini = 2.0;
+    double chosenCost = 2.0;
     int chosenMask = -1;
     for (int mask = 0; mask < maskSize; mask++)
     {
@@ -189,12 +229,13 @@ SplitData::GroupSplitData SplitData::Combination::getSplit(DataSet *data, int at
         if (left->empty() || right->empty())
             continue;
 
-        double gini = CostCalc::Gini::getGiniIndex(group, data->size());
-        if (chosenGini > gini)
+        // double cost = CostCalc::Gini::getGiniIndex(group, data->size());
+        double cost = CostCalc::Entropy::getEntropyIndex(group, data->size());
+        if (chosenCost > cost)
         {
             delete chosenGroup;
             chosenGroup = group;
-            chosenGini = gini;
+            chosenCost = cost;
             chosenMask = mask;
         }
         else
@@ -203,7 +244,7 @@ SplitData::GroupSplitData SplitData::Combination::getSplit(DataSet *data, int at
         }
     }
     /** TODO: change return type so it can contain comMask and gini index */
-    return SplitData::GroupSplitData(chosenGini, atr, chosenMask, SplitData::COMBINATION, chosenGroup);
+    return SplitData::GroupSplitData(chosenCost, atr, chosenMask, SplitData::COMBINATION, chosenGroup);
 }
 
 vector<int> SplitData::Combination::getErrorIndex(DataSet *data, int atr, int value) { 

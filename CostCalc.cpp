@@ -14,6 +14,9 @@ double CostCalc::Gini::getGiniScore(DataSet *data, double instances)
                 break;
             }
 
+    //Buff label B
+    cnt[2] *= 5;
+
     int size = 0;
     for (int label = 0; label < Data::LABEL.size(); label++)
         size += cnt[label];
@@ -53,12 +56,20 @@ double CostCalc::Entropy::getEntropyScore(DataSet *data)
             }
         }
     }
+
+    //Buff label B
+    count[2] *= 5;
+
+    numberOfData = 0;
+    for (int label = 0; label < Data::LABEL.size(); label++)
+        numberOfData += count[label];
+
     double entropy = 0.0;
     for (int i = 0; i < Data::LABEL.size(); i++)
     {
         double temp = count[i] * 1.0 / numberOfData;
         if (temp != 0)
-            entropy -= temp * log(temp);
+            entropy -= temp * log2(temp);
     }
     return entropy;
 }

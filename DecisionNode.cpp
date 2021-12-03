@@ -67,3 +67,17 @@ string DecisionNode::toString()
     getline(ss, result);
     return result;
 }
+
+void DecisionNode::setCode(int _code)
+{
+    code = _code;
+}
+
+string DecisionNode::getExport()
+{
+    string result;
+    stringstream ss;
+    ss << isTerminal() << ' ' << attribute << ' ' << compareValue << ' ' << method;
+    getline(ss, result);
+    return result;
+}

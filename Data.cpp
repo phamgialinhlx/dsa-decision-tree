@@ -34,6 +34,19 @@ Data::~Data()
     attribute.clear();
 }
 
+void Data::getAttFromString(string line)
+{
+    stringstream ss(line);
+    int num;
+    attribute.clear();
+    char temp;
+    while (ss >> num)
+    {
+        ss >> temp;
+        attribute.push_back(num);
+    }
+}
+
 // toString function returns a string that contains
 // label and all the values of attribute vector.
 string Data::toString()
@@ -85,6 +98,19 @@ DataSet *loadDataSetBuff(string fileName, char label, int scale)
     }
     return dataSet;
     
+}
+
+DataSet *loadDataTest(string filename)
+{
+    DataSet *dataset = new DataSet();
+    ifstream file(filename);
+    string line;
+    while (getline(file, line))
+    {
+        dataset->push_back(new Data());
+        dataset->back()->getAttFromString(line);
+    }
+    return dataset;
 }
 
 

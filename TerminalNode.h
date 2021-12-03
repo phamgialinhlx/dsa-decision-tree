@@ -29,6 +29,10 @@ class TerminalNode : virtual public Node
         char getLabel();
 
         string toString();
+
+        void setCode(int _code);
+
+        string getExport();
 };
 
 #endif

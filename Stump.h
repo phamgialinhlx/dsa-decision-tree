@@ -42,6 +42,10 @@ public:
 
     //check if prediction is correct
     bool predict(Node *node, Data *data);
+
+    void setCode(int _code);
+    
+    string getExport();
 };
 
 #endif

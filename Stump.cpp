@@ -85,3 +85,13 @@ double Stump::getSignificance()
 {
     return significance;
 }
+
+
+void Stump::setCode(int _code)
+{
+    code = _code;
+}
+
+string Stump::getExport() {
+    return "";
+}
