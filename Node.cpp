@@ -23,6 +23,7 @@ SplitData::GroupSplitData getSplit(vector<Data *> *dataset, SplitData::SPLIT_VAL
             break;
 
         default:
+            cout << "[EXCEPTION] Unknown split method" << endl;
             curGroup = SplitData::GroupSplitData();
             break;
         }

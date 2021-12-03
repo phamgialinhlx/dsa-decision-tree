@@ -39,11 +39,14 @@ struct Data
     // Attribute vector contains values which are the attributes of the data.
     vector<int> attribute;
 
+    // Index in dataset.
+    int index;
+
     // Default constructor.
     Data();
 
     // Constructor with full params.
-    Data(char _label, vector<int> _att);
+    Data(char _label, vector<int> _att, int index);
 
     // Constructor with one line string.
     Data(string line);
@@ -63,7 +66,12 @@ typedef vector<Data *> DataSet;
 // Group DataSet type
 typedef pair<DataSet *, DataSet *> GroupDataSet;
 
+DataSet *cloneDataSet(DataSet *dataSet);
+
 // loadDataSet function return vector of Data that read from file.
 DataSet *loadDataSet(string fileName);
+
+DataSet *loadDataSetBuff(string fileName, char label, int scale);
+
 
 #endif

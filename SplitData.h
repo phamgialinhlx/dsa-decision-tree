@@ -50,6 +50,8 @@ namespace SplitData
         //Split a dataset based on an attribute to a group of two new datasets
         //and select the best split point!
         GroupSplitData getSplit(DataSet *data, int atr);
+
+        vector<int> getErrorIndex(DataSet *data, int atr, int value);
     }
 
     namespace Comparison
@@ -63,6 +65,9 @@ namespace SplitData
         //Split a dataset based on comparing attribute to a group of two new datasets
         //and select the best split point!
         GroupSplitData getSplit(DataSet *data, int atr);
+
+        vector<int> getErrorIndex(DataSet *data, int atr, int value);
+
     }
 
     namespace Combination
@@ -77,6 +82,9 @@ namespace SplitData
         //Split a dataset based on a combination of attribute value
         // to a group of two new datasets and select the best split point!
         GroupSplitData getSplit(DataSet *data, int atr);
+
+        vector<int> getErrorIndex(DataSet *data, int atr, int value);
+
     }
 }
 

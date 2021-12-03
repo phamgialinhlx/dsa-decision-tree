@@ -32,7 +32,7 @@ Data DataGenerator::dataGen()
     for (int index = 0; index < att.size(); index++)
         att[index] = attGen();
     char label = labelGen(att);
-    return Data(label, att);
+    return Data(label, att, -1);
 }
 
 // testGen function returns a vector of Data.

@@ -25,7 +25,9 @@ GroupDataSet *SplitData::Attribute::split(DataSet *data, int atr, int value)
         if (data->at(i)->attribute.at(atr) == value)
             left->push_back(data->at(i));
         else
+        {
             right->push_back(data->at(i));
+        }
     }
     GroupDataSet *group = new GroupDataSet(left, right);
     return group;
@@ -64,6 +66,17 @@ SplitData::GroupSplitData SplitData::Attribute::getSplit(DataSet *data, int atr)
     return SplitData::GroupSplitData(chosenGini, atr, chosenValue, SplitData::ATTRIBUTE, chosenGroup);
 }
 
+vector<int> SplitData::Attribute::getErrorIndex(DataSet *data, int atr, int value) {
+    vector<int> errorIndex;
+    
+    for (int i = 0; i < data->size(); i++)
+    {
+        if (data->at(i)->attribute.at(atr) != value) errorIndex.push_back(i);
+    }
+
+    return errorIndex;
+}
+
 // Compare function
 bool SplitData::Comparison::compare(Data *data, int atr, int value)
 {
@@ -78,9 +91,13 @@ GroupDataSet *SplitData::Comparison::split(DataSet *data, int atr, int value)
     for (int i = 0; i < data->size(); i++)
     {
         if (data->at(i)->attribute.at(atr) < value)
+        {
             left->push_back(data->at(i));
+        }
         else
+        {
             right->push_back(data->at(i));
+        }
     }
     GroupDataSet *group = new GroupDataSet(left, right);
     return group;
@@ -117,6 +134,18 @@ SplitData::GroupSplitData SplitData::Comparison::getSplit(DataSet *data, int atr
     }
     return SplitData::GroupSplitData(chosenGini, atr, chosenValue, SplitData::COMPARISON, chosenGroup);
 }
+
+vector<int> SplitData::Comparison::getErrorIndex(DataSet *data, int atr, int value) {
+    vector<int> errorIndex;
+    
+    for (int i = 0; i < data->size(); i++)
+    {
+        if (data->at(i)->attribute.at(atr) >= value) errorIndex.push_back(i);
+    }
+
+    return errorIndex;
+}
+
 
 // Compare function
 bool SplitData::Combination::compare(Data *data, int atr, int mask)
@@ -175,4 +204,15 @@ SplitData::GroupSplitData SplitData::Combination::getSplit(DataSet *data, int at
     }
     /** TODO: change return type so it can contain comMask and gini index */
     return SplitData::GroupSplitData(chosenGini, atr, chosenMask, SplitData::COMBINATION, chosenGroup);
+}
+
+vector<int> SplitData::Combination::getErrorIndex(DataSet *data, int atr, int value) { 
+    vector<int> errorIndex;
+    for (int i = 0; i < data->size(); i++)
+    {
+        int curAtt = data->at(i)->attribute.at(atr) - 1;
+        if (getBit(value, curAtt))
+            errorIndex.push_back(i);
+    }
+    return errorIndex;
 }
