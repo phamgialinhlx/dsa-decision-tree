@@ -9,6 +9,7 @@
 #include "TerminalNode.h"
 #include <algorithm>
 #include <iostream>
+#define M_E		2.7182818284590452354
 
 using namespace std;
 
