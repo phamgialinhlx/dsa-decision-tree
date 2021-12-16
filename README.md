@@ -103,9 +103,9 @@ So because the prediction result is low and we are not satisfy with that. So my 
 So the first thing that we notice is the label **'B'** is the most difficult prediction. And luckily `Random forrest` is good to against this trouble. By randomly generate some boost trap data with have more label **'B'** in it and then build a decision tree based on that dataset. By repeating that process, we have create a forrest that can predict label **'B'** better.
 
 But the more we build a new tree, the more slowly it is. So we have to limit size of forrest down to 100 trees. 
-
-> Best Accuracy = 79.5699% | Method: Comparision; Min size = {1, 2, 3}, Max depth = 5
-
+```
+Best Accuracy = 79.5699% | Method: Comparision; Min size = {1, 2, 3}, Max depth = 5
+```
 By boosting the label **'B'** and randomly create several tree, we have created some very best model in the upcomming update.
 
 ### Update 7 - Upgrade random forrest and fixed some bugs
@@ -115,9 +115,9 @@ In this update, we notice that the way we build random forrest is not the best o
 - Build the tree by try `max depth` and `min size` to find the best tree which has the best accuracy when predict the `trainData` or `validData` and repeat that process to make the forrest.
 
 By doing like that, we have created some best model which has stunning result:
-
-> Best Accuracy = 87.0968% (valid test) | 86% (new test)
-
+```
+Best Accuracy = 87.0968% (valid test) | 86% (new test)
+```
 Also, in this update, we have created two new functions for tree which are `import()` and `export()`. By using they, we can store our best model to file and keep it safe.  
 
 ### Update 8 - AdaBoost
@@ -126,21 +126,23 @@ In this update, we try a new way to classify the label. It's `AdaBoost`. Both Ra
 
 Three ideas behind `AdaBoost` are
 - `AdaBoost` combines a lot of "weak learners" to make classifications. The weak learners are almost always stumps (trees with one node and two leaves). 
-```
-Random forest makes use of multiple full-size decision trees or multiple decision trees having different depth. These decision trees make use of multiple variables to do final classification of a data point. On the other hand, AdaBoost makes use of what is called as decision stumps. Decision stumps are decision trees with one node and two leaves. AdaBoost makes use of multiple decision stumps with each decision stump built on just one variable or feature. 
-```
+
+>Random forest makes use of multiple full-size decision trees or multiple decision trees having different depth. These decision trees make use of multiple variables to do final classification of a data point. On the other hand, AdaBoost makes use of what is called as decision stumps. Decision stumps are decision trees with one node and two leaves. AdaBoost makes use of multiple decision stumps with each decision stump built on just one variable or feature. 
+
 
 - Some of stumps get more say in the classification than others.
-``` 
-In Random forest, the training data is sampled based on bagging technique. Bagging technique is a data sampling technique which decreases the variance in the prediction by generating additional data for training from dataset using combinations with repetitions to produce multi-sets of the original data. In AdaBoost, the training data used for training subsequent decision stumps have few data samples assigned higher weights based on miss-classification of those data set in the previous decision stump. 
-```
+ 
+>In Random forest, the training data is sampled based on bagging technique. Bagging technique is a data sampling technique which decreases the variance in the prediction by generating additional data for training from dataset using combinations with repetitions to produce multi-sets of the original data. In AdaBoost, the training data used for training subsequent decision stumps have few data samples assigned higher weights based on miss-classification of those data set in the previous decision stump. 
 - Each stump is made by taking the previous stump's mistakes into account. 
-```
-So that in the forest of stumps made in AdaBoost, the ordering in which decision stumps are created is important. Unlike in Random forest, each decision tree is made independently of other trees. The ordering in which decision trees are created are not important at all
-```
 
-> Best Accuracy = 82.7957%
+>So that in the forest of stumps made in AdaBoost, the ordering in which decision stumps are created is important. Unlike in Random forest, each decision tree is made independently of other trees. The ordering in which decision trees are created are not important at all
 
+
+The prediction for label **'L'** and **'R'** are pretty good.
+Although we expect AdaBoost would be more efficiency than Random Forest according to the theory, the prediction for the label **'B'** are really bad. 
+```
+Best Accuracy = 82.7957%
+```
 Best forest of stumps
 | Stump  | Attribute | Compare Value |   Method   | Significance | Left Label | Right Label|
 | -------| --------- | ------------- | ---------- | ------------ | ---------- | ---------- |
@@ -150,8 +152,6 @@ Best forest of stumps
 | 4      | 0         | 1             | COMPARISON | 0.073466     | R          | L          |
 | 5      | 2         | 3             | COMPARISON | 0.11714      | R          | R          |
 
-The prediction for label **'L'** and **'R'** are pretty good.
-Although we expect AdaBoost would be more efficiency than Random Forest according to the theory, the prediction for the label **'B'** are really bad. 
 
 ## Issues
 

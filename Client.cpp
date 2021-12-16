@@ -20,6 +20,8 @@ int main()
      */
     srand(time(NULL));
 
+
+
     int gen;
     cout << "Generate new test? (1 - Yes | 2 - No): ";
     cin >> gen;
