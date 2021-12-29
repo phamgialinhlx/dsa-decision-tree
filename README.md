@@ -103,6 +103,20 @@ So because the prediction result is low and we are not satisfy with that. So my 
 So the first thing that we notice is the label **'B'** is the most difficult prediction. And luckily `Random forrest` is good to against this trouble. By randomly generate some boost trap data with have more label **'B'** in it and then build a decision tree based on that dataset. By repeating that process, we have create a forrest that can predict label **'B'** better.
 
 But the more we build a new tree, the more slowly it is. So we have to limit size of forrest down to 100 trees. 
+
+Records:
+
+| MAX DEPTH | MIN SIZE | COMPARISON | COMBINATION | ATTRIBUTE | 
+| --------- | -------- | ---------- | ----------- | --------- |
+|     2     |  1, 2, 3 | 74.1935    | 74.1935     | 64.5161   |
+|     3     |  1, 2, 3 | 75.2688    | 75.2688     | 62.3656   |
+|     4     |  1, 2, 3 | 77.4194    | 75.2688     | 63.4409   |
+|     5     |  1, 2, 3 | 79.5699    | 77.4194     | 63.4409   |
+|     6     |  1, 2, 3 | 78.4946    | 78.4946     | 77.4194   |
+|     7     |  1, 2    | 77.4194    | 78.4946     | 70.9677   |
+|     7     |     3    | 77.4194    | 76.3441     | 70.9677   |
+
+
 ```
 Best Accuracy = 79.5699% | Method: Comparision; Min size = {1, 2, 3}, Max depth = 5
 ```
