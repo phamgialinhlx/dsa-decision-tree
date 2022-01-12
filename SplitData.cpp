@@ -215,7 +215,7 @@ GroupDataSet *SplitData::Combination::split(DataSet *data, int atr, int mask)
 //  to a group of two new datasets and select the best split point!
 SplitData::GroupSplitData SplitData::Combination::getSplit(DataSet *data, int atr)
 {
-    int maskSize = (2 << Data::ATT_SIZE) - 1;
+    int maskSize = 1 << Data::ATT_SIZE;
     GroupDataSet *chosenGroup = NULL;
     double chosenCost = 2.0;
     int chosenMask = -1;
