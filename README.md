@@ -186,4 +186,4 @@ This project is being developed by:
 
 Thanks to third-party open-source projects, contributors, and all the people who have contributed ideas, patches, bugs reports, feature requests, donations, and help me to develop this project.
 
-Last but not least, thanks to our lecturer - **Pham Dinh Tuan** who gave us this problem and resource to research and develop this project! 
+Last but not least, thanks to our lecturer - **Nguyen Dinh Tuan** who gave us this problem and resource to research and develop this project! 
