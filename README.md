@@ -3,7 +3,7 @@
 ## Introduction
 
 **Decision Tree** is an assignment in the **Data structure and Algorithms** (*DSA*) Course of UET (***University of Engineering and Technology***).  
-The lecturer of this course: **BSc. Pham Dinh Tuan**.
+The lecturer of this course: **BSc. Nguyen Dinh Tuan**.
 
 ## Usage
 
